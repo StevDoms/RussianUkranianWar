@@ -3,12 +3,18 @@
   import { onMount } from 'svelte';
   import * as d3 from 'd3';
   import { news_data } from '../constants.js';
+  
+  import Modal from './Modal.svelte';
+	import Popup from './Popup.svelte';
+  import Button from './Button.svelte';
+  import { modal } from './stores.js';
+  import Hero from './Hero.svelte';
 
   let data = [];
   const dataKeep = ["date", "APC", "MRL", "aircraft", "anti-aircraft warfare", "cruise missiles", "drone", "field artillery", "helicopter", "naval ship", "special equipment", "submarines", "tank", "vehicles and fuel tanks"];
   const dataKey = dataKeep.slice(1, dataKeep.length - 1);
-  let svg, x, y; // Moved outside to be accessible by graphing
-  let initialized = false; // To check if initial setup is done
+  let svg, x, y;
+  let initialized = false;
 
   onMount(async () => {
     const res = await fetch('russia_losses_equipment.csv');
@@ -63,7 +69,7 @@
                         .attr("x", x(0))
                         .attr("y", key => y(key))
                         .attr("height", y.bandwidth())
-                        .attr("fill", "#69b3a2")
+                        .attr("fill", "#0057B7")
                         .attr("width", 0);
     barsEnter.merge(bars)
              .transition()
@@ -73,7 +79,7 @@
              .attr("y", key => y(key))
              .attr("width", key => x(data[index][key]))
              .attr("height", y.bandwidth())
-             .attr("fill", "#69b3a2");
+             .attr("fill", "#0057B7");
     bars.exit()
         .transition()
         .duration(750)
@@ -109,6 +115,7 @@
 </script>
 
 <main>
+    <Hero/>
     <Scroller
     top={0.0}
     bottom={1}
@@ -124,12 +131,14 @@
             <div class="progress_date"><span>Current date: {data[index] ? formatDate(data[index]['date']) : 'undefined'}</span></div>
 
             <div id="my_dataviz"></div>
-            <div id="counter">
-              {#each dataKey as key}
-                <div>
-                  <span class="counter_key">{key}</span>: {data[index] ? data[index][key] === null ? 0 : data[index][key] : 'undefined'}
-                </div>
-              {/each}
+            <div class="count_container">
+              <div id="counter">
+                {#each dataKey as key}
+                  <div>
+                    <span class="counter_key">{key}</span>: {data[index] ? data[index][key] === null ? 0 : data[index][key] : 'undefined'}
+                  </div>
+                {/each}
+              </div>
             </div>
           </div>
       </div>
@@ -147,7 +156,9 @@
                   {/each}
                 </ul>
               </div>
-            
+              <Modal show={$modal}>
+                <Button data={data[index]}/>
+              </Modal>
             </section>
           {/each}
       </div>
@@ -157,11 +168,14 @@
 </main>
 
 <style>
+  :global(body) { 
+    margin: 0;
+    margin-left: 8px;
+  }
   .background {
     width: 100%;
     height: 100vh;
     position: relative;
-    outline: green solid 3px;
     margin: 0;
     padding: 0;
   }
@@ -171,23 +185,21 @@
     margin: 0 0 0 auto;
     height: auto;
     position: relative;
-    outline: red solid 3px;
   }
 
   section {
     height: 80vh;
     background-color: #FFF;
-    /* color: white; */
-    outline: magenta solid 3px;
+    outline: #000 solid 3px;
     text-align: left;
     color: black;
     padding: 1em;
-    margin: 0 0 0 0;
+    margin: 0 3px 0 0;
   }
 
   .progress-bars {
     position: absolute;
-    background: rgba(170, 51, 120, 0.2) /*  40% opaque */;
+    background: #FAF9F6;
     visibility: visible;
     height: 100%;
     width: 50%;
@@ -210,14 +222,15 @@
   }
 
   .page_progress {
-    width: 100%;
+    width: 99%;
+    color: #000;
   }
 
   #tooltip {
     position: absolute;
     visibility: hidden;
     pointer-events: none;
-    background-color: lightsteelblue;
+    background-color: #0057B7;
     padding: 10px;
     padding-top: 0px;    
     padding-bottom: 0px; 
@@ -227,6 +240,11 @@
 
   #my_dataviz {
     padding-left: 10px
+  }
+
+  .count_container {
+    display: flex;
+    flex-grow: 0;
   }
 
   #counter {
@@ -241,11 +259,15 @@
     text-align: left;
     overflow-wrap: break-word;
     background-color: white;
-    border: 2px solid #ccc;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     padding: 15px;
-}
+    margin-right: 20px;
+  }
+
+  .visualize_button {
+    height: 30px;
+  }
 
   .counter_key {
     font-weight: 600;
@@ -287,7 +309,6 @@
     margin-bottom: 0px; 
     list-style-type: circle;
     line-height: 1.5;
-
   }
 
 </style>
