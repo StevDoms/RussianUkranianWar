@@ -10,6 +10,10 @@
             <p class="content">Our mission is to shed light on the scale and consequences of the Russian-Ukrainian war through data-driven visuals. By meticulously collecting and analyzing data on the deployment of military hardware, including tanks, artillery, and aircraft, we aim to offer unparalleled insights into the magnitude of resources involved in this protracted conflict.</p>
             <p class="content">Through immersive and accessible visualizations, we endeavor to bring attention to the scale of the military equipments used during this ongoing conflict. 
             Our visualization provides a detailed narrative, tracking the monthly accumulation of military equipment usage alongside concise summaries of significant events, elucidating spikes in deployment. Furthermore, users can contextualize these figures by comparing them to the height of the Empire State Building, offering a tangible perspective on the scale of military engagement. Our goal is to prompt critical discussions and foster empathy for those affected by the conflict while providing a unique perspective on the realities of modern warfare.</p>
+            <div style="margin-top: 20px">
+                Check out the project video
+                <a href="https://youtu.be/217i1vbrKWE" target=blank_ style="color: blue">here</a>
+            </div>
         </div>
         <img src="Hero.png" alt="Ukranian Soldier">
     </div>
@@ -47,6 +51,13 @@
         line-height: 1.0;
         letter-spacing: 0.5px;
         padding-top: 10px;
+    }
+
+    a:link, a:visited {
+        color: blue; 
+    }
+    a:hover, a:active {
+        color: blue; 
     }
     
 </style>

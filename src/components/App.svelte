@@ -159,6 +159,14 @@
               <Modal show={$modal}>
                 <Button data={data[index]}/>
               </Modal>
+              {#if index === 22}
+                <div class="takeaway-container">
+                  <h2 class="takeaway-title">Key Takeaway</h2>
+                  <p class="takeaway-text">
+                    The key takeaway from our visualization is crystal clear: war exacts a heavy toll, both in terms of resources which include various kinds of military equipment. By allowing users to quantify this toll with our dynamic bar graphs and visualize it against a familiar landmark, we empower them to grasp the enormity of the conflict effortlessly. Our visualization and content underscore the sobering reality that war is not just a distant event but a costly and resource-intensive endeavor that demands our attention and reflection.
+                  </p>
+                </div>
+              {/if}
             </section>
           {/each}
       </div>
@@ -168,6 +176,7 @@
 </main>
 
 <style>
+
   :global(body) { 
     margin: 0;
     margin-left: 8px;
@@ -310,5 +319,29 @@
     list-style-type: circle;
     line-height: 1.5;
   }
+  .takeaway-container {
+  background-color: #f2f2f2; 
+  border-left: 5px solid #0057B7; 
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  transition: transform 0.3s ease-in-out; 
+}
 
+.takeaway-container:hover {
+  transform: translateY(-5px);
+}
+
+.takeaway-title {
+  font-family: "PT Serif", serif;
+  color: #0057B7;
+  margin-bottom: 10px;
+}
+
+.takeaway-text {
+  font-family: "PT Serif", serif;
+  line-height: 1.6;
+  color: #333;
+}
 </style>
